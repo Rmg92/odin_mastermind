@@ -23,9 +23,9 @@ You need to have Ruby installed to play locally.
 ## What I Learned
 
 ## To-Do
-- [] Make the game playable when the computer is the creator and the player the guesser
-- [] Make the game playable when the computer is the guesser and the player is the creator
-- [] Let the player choose if he wants to be the creator or the guesser
+- [ ] Make the game playable when the computer is the creator and the player the guesser
+- [ ] Make the game playable when the computer is the guesser and the player is the creator
+- [ ] Let the player choose if he wants to be the creator or the guesser
 
 ## Acknowledgments
 * [The Odin Project](https://www.theodinproject.com/)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Creates a new human player, role can be creator or guesser
-class Player
+class Human
   attr_accessor :name
   attr_reader :role
 
@@ -22,7 +22,7 @@ end
 
 # Temporary code for tests
 puts 'Insert human name'
-player = Player.new(gets.chomp)
-puts "Human name is #{player.name} and his role is #{player.role}"
+human = Human.new(gets.chomp)
+puts "Human name is #{human.name} and his role is #{human.role}"
 computer = Computer.new
 puts "Computer role is #{computer.role}"

@@ -18,6 +18,14 @@ class Computer
   def initialize
     @role = 'Creator'
   end
+
+  def pick_secret
+    secret = []
+    4.times do
+      secret << rand(1..6)
+    end
+    secret
+  end
 end
 
 # Creates a new board
@@ -44,3 +52,4 @@ board = Board.new
 game = Game.new
 board
 game
+puts computer.pick_secret

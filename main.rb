@@ -46,6 +46,7 @@ class Game
   def initialize
     create_players
     store_secret
+    p ask_guess
   end
 
   def create_players
@@ -58,6 +59,17 @@ class Game
   def store_secret
     puts "I have now picked the secret code, you can start guessing when you're ready!"
     @secret = @computer.pick_secret
+  end
+
+  def ask_guess
+    puts 'Input your guess! It should be a 4 digit number composed by numbers between 1 and 6!'
+    guess = @human.guess_secret
+    if guess.all? { |number| number.between?(1, 6) } && guess.length == 4
+      guess
+    else
+      puts 'Wrong Input! It should be a 4 digit number composed by numbers between 1 and 6!'
+      ask_guess
+    end
   end
 end
 

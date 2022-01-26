@@ -44,19 +44,16 @@ end
 # Contains the game logic
 class Game
   def initialize
-    puts "Let's Play"
+    create_players
+  end
+
+  def create_players
+    puts "Hello Human, what's your name?"
+    @human = Human.new(gets.chomp)
+    @computer = Computer.new
+    puts "Nice to meet you #{@human.name}! You will be the #{@human.role} and I will be the #{@computer.role}"
   end
 end
 
 # Temporary code for tests
-puts 'Insert human name'
-human = Human.new(gets.chomp)
-puts "Human name is #{human.name} and his role is #{human.role}"
-computer = Computer.new
-puts "Computer role is #{computer.role}"
-board = Board.new
-game = Game.new
-board
-game
-p computer.pick_secret
-p human.guess_secret
+Game.new

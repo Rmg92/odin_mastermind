@@ -13,7 +13,7 @@ class Human
   end
 
   def guess_secret
-    gets.chomp.split('').map(&:to_i).delete_if(&:zero?)
+    gets.split('').map(&:to_i).delete_if(&:zero?)
   end
 end
 

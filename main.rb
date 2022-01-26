@@ -45,6 +45,7 @@ end
 class Game
   def initialize
     create_players
+    store_secret
   end
 
   def create_players
@@ -53,7 +54,12 @@ class Game
     @computer = Computer.new
     puts "Nice to meet you #{@human.name}! You will be the #{@human.role} and I will be the #{@computer.role}"
   end
+
+  def store_secret
+    puts "I have now picked the secret code, you can start guessing when you're ready!"
+    @secret = @computer.pick_secret
+  end
 end
 
-# Temporary code for tests
 Game.new
+# Temporary code for tests

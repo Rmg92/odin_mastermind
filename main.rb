@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
+
 # Creates a new human player, role can be creator or guesser
 class Human
   attr_accessor :name
@@ -8,6 +10,10 @@ class Human
   def initialize(name)
     @name = name
     @role = 'Guesser'
+  end
+
+  def guess_secret
+    gets.chomp.split('').map(&:to_i).delete_if(&:zero?)
   end
 end
 
@@ -52,4 +58,5 @@ board = Board.new
 game = Game.new
 board
 game
-puts computer.pick_secret
+p computer.pick_secret
+p human.guess_secret

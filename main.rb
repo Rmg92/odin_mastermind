@@ -20,9 +20,27 @@ class Computer
   end
 end
 
+# Creates a new board
+class Board
+  def initialize
+    puts 'o o o o'
+  end
+end
+
+# Contains the game logic
+class Game
+  def initialize
+    puts "Let's Play"
+  end
+end
+
 # Temporary code for tests
 puts 'Insert human name'
 human = Human.new(gets.chomp)
 puts "Human name is #{human.name} and his role is #{human.role}"
 computer = Computer.new
 puts "Computer role is #{computer.role}"
+board = Board.new
+game = Game.new
+board
+game

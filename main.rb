@@ -44,9 +44,24 @@ end
 # Contains the game logic
 class Game
   def initialize
+    @winner = false
+    @round = 1
+  end
+
+  def play
     create_players
     store_secret
-    p ask_guess
+    play_round until @winner == true || @round == 12
+    if @winner == true
+      puts "Good job #{@human.name}, you won the Game!"
+    else
+      puts 'Too bad, I won the Game!!!'
+    end
+  end
+
+  def play_round
+    check_guess
+    @round += 1
   end
 
   def create_players
@@ -71,7 +86,30 @@ class Game
       ask_guess
     end
   end
+
+  def check_guess
+    guess = ask_guess
+    if @secret.eql?(guess)
+      @winner = true
+    else
+      loop_guess(guess)
+    end
+  end
+
+  def loop_guess(guess)
+    hint = []
+    hinted = []
+    guess.each_with_index do |guess_number, index|
+      if @secret[index].eql?(guess_number)
+        hint << 'O'
+        hinted << guess_number
+      elsif @secret.include?(guess_number) && hinted.include?(guess_number) == false
+        hint << 'X'
+      end
+    end
+    p hint
+  end
 end
 
-Game.new
+Game.new.play
 # Temporary code for tests

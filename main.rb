@@ -51,7 +51,7 @@ class Game
   def play
     create_players
     store_secret
-    play_round until @winner == true || @round == 12
+    play_round until @winner == true || @round == 13
     if @winner == true
       puts "Good job #{@human.name}, you won the Game!"
     else

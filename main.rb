@@ -31,7 +31,7 @@ class Computer
       secret << rand(1..6)
     end
     secret
-  end 
+  end
 end
 
 # Creates a new board
@@ -105,10 +105,8 @@ class Game
         hinted << guess_number
       end
     end
-    guess.each_with_index do |guess_number, index|
-      if @secret.include?(guess_number) && hinted.include?(guess_number) == false
-        hint << 'X'
-      end
+    guess.each do |guess_number|
+      hint << 'X' if @secret.include?(guess_number) && hinted.include?(guess_number) == false
     end
     p hint
   end

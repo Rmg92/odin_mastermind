@@ -12,6 +12,7 @@ This project is part of [The Odin Project](https://www.theodinproject.com/paths/
 * Ruby
 
 ## Play Online
+[replit.com](https://replit.com/@Rmg92/odinmastermind?v=1) click on the green "Run" button
 
 ## Play Locally
 ### Prerequisites
@@ -23,7 +24,7 @@ You need to have Ruby installed to play locally.
 ## What I Learned
 
 ## To-Do
-- [ ] Make the game playable when the computer is the creator and the player the guesser
+- [X] Make the game playable when the computer is the creator and the player the guesser
 - [ ] Make the game playable when the computer is the guesser and the player is the creator
 - [ ] Let the player choose if he wants to be the creator or the guesser
 

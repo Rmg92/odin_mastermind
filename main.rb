@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+# require 'pry-byebug'
 
 # Creates a new human player, role can be creator or guesser
 class Human
-  attr_accessor :name
-  attr_reader :role
+  attr_accessor :name, :role
 
   def initialize(name)
     @name = name
-    @role = 'Guesser'
   end
 
   def guess_secret
@@ -19,10 +17,10 @@ end
 
 # Creates a new computer player, role can be creator or guesser
 class Computer
-  attr_reader :role
+  attr_accessor :role
 
-  def initialize
-    @role = 'Creator'
+  def guess_secret
+    [1, 1, 2, 2]
   end
 
   def pick_secret
@@ -68,7 +66,22 @@ class Game
     puts "Hello Human, what's your name?"
     @human = Human.new(gets.chomp)
     @computer = Computer.new
-    puts "Nice to meet you #{@human.name}! You will be the #{@human.role} and I will be the #{@computer.role}"
+    choose_roles
+    puts "Nice to meet you #{@human.name}! You will be the #{@human.role} and I will be the #{@computer.role}!"
+  end
+
+  def choose_roles
+    puts 'Insert 0 if you want to be the creator or 1 if you want to be the guesser'
+    role = gets.to_i
+    if role.zero?
+      @human.role = ('Creator')
+      @computer.role = ('Guesser')
+    elsif role.eql?(1)
+      @human.role = ('Guesser')
+      @computer.role = ('Creator')
+    else
+      puts 'Wrong Input! Insert 0 if you want to be the creator or 1 if you want to be the guesser'
+    end
   end
 
   def store_secret

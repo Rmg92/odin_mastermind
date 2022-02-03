@@ -10,6 +10,10 @@ class Human
     @name = name
   end
 
+  def pick_secret
+    gets.split('').map(&:to_i).delete_if(&:zero?)
+  end
+
   def guess_secret
     gets.split('').map(&:to_i).delete_if(&:zero?)
   end
@@ -19,16 +23,17 @@ end
 class Computer
   attr_accessor :role
 
-  def guess_secret
-    [1, 1, 2, 2]
-  end
-
   def pick_secret
     secret = []
     4.times do
       secret << rand(1..6)
     end
+    puts "I have now picked the secret code, you can start guessing when you're ready!"
     secret
+  end
+
+  def guess_secret
+    [1, 1, 2, 2]
   end
 end
 
@@ -74,19 +79,22 @@ class Game
     puts 'Insert 0 if you want to be the creator or 1 if you want to be the guesser'
     role = gets.to_i
     if role.zero?
-      @human.role = ('Creator')
-      @computer.role = ('Guesser')
+      @human.role = 'Creator'
+      @computer.role = 'Guesser'
     elsif role.eql?(1)
-      @human.role = ('Guesser')
-      @computer.role = ('Creator')
+      @human.role = 'Guesser'
+      @computer.role = 'Creator'
     else
       puts 'Wrong Input! Insert 0 if you want to be the creator or 1 if you want to be the guesser'
     end
   end
 
   def store_secret
-    puts "I have now picked the secret code, you can start guessing when you're ready!"
-    @secret = @computer.pick_secret
+    @secret = if @human.role.eql?('Creator')
+                @human.pick_secret
+              else
+                @computer.pick_secret
+              end
   end
 
   def ask_guess

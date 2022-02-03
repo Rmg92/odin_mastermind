@@ -15,7 +15,14 @@ class Human
   end
 
   def guess_secret
-    gets.split('').map(&:to_i).delete_if(&:zero?)
+    puts 'Input your guess! It should be a 4 digit number composed by numbers between 1 and 6!'
+    guess = gets.split('').map(&:to_i).delete_if(&:zero?)
+    if guess.all? { |number| number.between?(1, 6) } && guess.length == 4
+      guess
+    else
+      puts 'Wrong Input! It should be a 4 digit number composed by numbers between 1 and 6!'
+      ask_guess
+    end
   end
 end
 
@@ -33,7 +40,11 @@ class Computer
   end
 
   def guess_secret
-    [1, 1, 2, 2]
+    secret = []
+    4.times do
+      secret << rand(1..6)
+    end
+    secret
   end
 end
 
@@ -98,13 +109,10 @@ class Game
   end
 
   def ask_guess
-    puts 'Input your guess! It should be a 4 digit number composed by numbers between 1 and 6!'
-    guess = @human.guess_secret
-    if guess.all? { |number| number.between?(1, 6) } && guess.length == 4
-      guess
+    if @human.role.eql?('Guesser')
+      @human.guess_secret
     else
-      puts 'Wrong Input! It should be a 4 digit number composed by numbers between 1 and 6!'
-      ask_guess
+      @computer.guess_secret
     end
   end
 

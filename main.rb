@@ -21,7 +21,7 @@ class Human
       guess
     else
       puts 'Wrong Input! It should be a 4 digit number composed by numbers between 1 and 6!'
-      ask_guess
+      guess_secret
     end
   end
 end
@@ -65,8 +65,8 @@ class Game
   def play
     create_players
     store_secret
-    play_round until @winner == true || @round == 13
-    if @winner == true
+    play_round until @winner || @round == 13
+    if @winner
       puts "Good job #{@human.name}, you won the Game!"
     else
       puts 'Too bad, I won the Game!!!'

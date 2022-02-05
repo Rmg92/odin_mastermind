@@ -30,6 +30,11 @@ end
 class Computer
   attr_accessor :role
 
+  def initialize
+    choices = [1, 2, 3, 4, 5, 6]
+    @possible_guesses = choices.repeated_permutation(4).to_a
+  end
+
   def pick_secret
     secret = []
     4.times do
@@ -39,10 +44,14 @@ class Computer
     secret
   end
 
-  def guess_secret
+  def guess_secret(round)
     secret = []
-    4.times do
-      secret << rand(1..6)
+    if round.eql?(1)
+      secret = [1, 1, 2, 2]
+    else
+      4.times do
+        secret << rand(1..6)
+      end
     end
     secret
   end
@@ -71,6 +80,10 @@ class Game
     else
       puts 'Too bad, I won the Game!!!'
     end
+  end
+
+  def round_number
+    @round
   end
 
   def play_round
@@ -109,35 +122,48 @@ class Game
   end
 
   def ask_guess
-    if @human.role.eql?('Guesser')
-      @human.guess_secret
-    else
-      @computer.guess_secret
-    end
+    @guess = if @human.role.eql?('Guesser')
+               @human.guess_secret
+             else
+               @computer.guess_secret(@round)
+             end
   end
 
   def check_guess
-    guess = ask_guess
-    if @secret.eql?(guess)
+    ask_guess
+    if @secret.eql?(@guess)
       @winner = true
     else
-      loop_guess(guess)
+      @hinted = []
+      give_feedback
     end
   end
 
-  def loop_guess(guess)
+  def give_feedback
+    if @human.role.eql?('Guesser')
+      p right_position + right_color
+    else
+      p "#{right_position.length} - #{right_color.length}"
+    end
+  end
+
+  def right_position
     hint = []
-    hinted = []
-    guess.each_with_index do |guess_number, index|
-      if @secret[index].eql?(guess_number)
-        hint << 'O'
-        hinted << guess_number
-      end
+    @guess.each_with_index do |guess_number, index|
+      next unless @secret[index].eql?(guess_number)
+
+      hint << 'X'
+      @hinted << guess_number
     end
-    guess.each do |guess_number|
-      hint << 'X' if @secret.include?(guess_number) && hinted.include?(guess_number) == false
+    hint
+  end
+
+  def right_color
+    hint = []
+    @guess.each do |guess_number|
+      hint << '?' if @secret.include?(guess_number) && @hinted.include?(guess_number) == false
     end
-    p hint
+    hint
   end
 end
 

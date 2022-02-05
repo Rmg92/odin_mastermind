@@ -45,6 +45,7 @@ class Computer
   end
 
   def guess_secret(round)
+    sleep 1
     secret = []
     if round.eql?(1)
       secret = [1, 1, 2, 2]

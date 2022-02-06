@@ -111,6 +111,7 @@ class Game
       @computer.role = 'Creator'
     else
       puts 'Wrong Input! Insert 0 if you want to be the creator or 1 if you want to be the guesser'
+      choose_roles
     end
   end
 

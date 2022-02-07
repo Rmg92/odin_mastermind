@@ -33,6 +33,7 @@ class Computer
   def initialize
     choices = [1, 2, 3, 4, 5, 6]
     @possible_guesses = choices.repeated_permutation(4).to_a
+    @last_guess = []
   end
 
   def pick_secret
@@ -44,17 +45,30 @@ class Computer
     secret
   end
 
-  def guess_secret(round)
+  def guess_secret
     sleep 1
-    secret = []
-    if round.eql?(1)
-      secret = [1, 1, 2, 2]
-    else
-      4.times do
-        secret << rand(1..6)
-      end
-    end
+    secret = if @last_guess.empty?
+               [1, 1, 2, 2]
+             else
+               @possible_guesses[0]
+             end
+    @last_guess = secret
+    p secret
     secret
+  end
+
+  def delete_possible_guesses(right_position, _right_color)
+    @possible_guesses.delete(@last_guess)
+    new_possible_guesses = []
+    @possible_guesses.each do |possible_guess|
+      right_pos = 0
+      @last_guess.each_with_index do |number, index|
+        right_pos += 1 if possible_guess[index].eql?(number)
+      end
+      new_possible_guesses << possible_guess if right_pos.eql?(right_position)
+    end
+
+    @possible_guesses = new_possible_guesses
   end
 end
 
@@ -127,7 +141,7 @@ class Game
     @guess = if @human.role.eql?('Guesser')
                @human.guess_secret
              else
-               @computer.guess_secret(@round)
+               @computer.guess_secret
              end
   end
 
@@ -145,7 +159,7 @@ class Game
     if @human.role.eql?('Guesser')
       p right_position + right_color
     else
-      p "#{right_position.length} - #{right_color.length}"
+      @computer.delete_possible_guesses(right_position.length, right_color.length)
     end
   end
 

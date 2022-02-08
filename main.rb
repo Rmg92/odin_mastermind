@@ -57,17 +57,18 @@ class Computer
     secret
   end
 
-  def delete_possible_guesses(right_position, _right_color)
+  def delete_possible_guesses(right_position, right_color)
     @possible_guesses.delete(@last_guess)
     new_possible_guesses = []
     @possible_guesses.each do |possible_guess|
       right_pos = 0
+      right_col = 0
       @last_guess.each_with_index do |number, index|
         right_pos += 1 if possible_guess[index].eql?(number)
+        right_col += 1 if possible_guess.include?(number) && possible_guess[index].eql?(number) == false
       end
-      new_possible_guesses << possible_guess if right_pos.eql?(right_position)
+      new_possible_guesses << possible_guess if right_pos.eql?(right_position) && right_col >= right_color
     end
-
     @possible_guesses = new_possible_guesses
   end
 end

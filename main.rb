@@ -11,7 +11,14 @@ class Human
   end
 
   def pick_secret
-    gets.split('').map(&:to_i).delete_if(&:zero?)
+    puts "Please choose a 4 digits between 1 and 6 code."
+    secret = gets.split('').map(&:to_i).delete_if(&:zero?)
+    if secret.all? { |number| number.between?(1, 6) } && secret.length == 4
+      secret
+    else
+      puts 'Wrong Input'
+      pick_secret
+    end
   end
 
   def guess_secret
@@ -20,7 +27,7 @@ class Human
     if guess.all? { |number| number.between?(1, 6) } && guess.length == 4
       guess
     else
-      puts 'Wrong Input! It should be a 4 digit number composed by numbers between 1 and 6!'
+      puts 'Wrong Input'
       guess_secret
     end
   end
@@ -116,7 +123,7 @@ class Game
   end
 
   def choose_roles
-    puts 'Insert 0 if you want to be the creator or 1 if you want to be the guesser'
+    puts 'Insert 0 if you want to be the Creator or 1 if you want to be the Guesser'
     role = gets.to_i
     if role.zero?
       @human.role = 'Creator'
@@ -125,17 +132,9 @@ class Game
       @human.role = 'Guesser'
       @computer.role = 'Creator'
     else
-      puts 'Wrong Input! Insert 0 if you want to be the creator or 1 if you want to be the guesser'
+      puts 'Wrong Input!'
       choose_roles
     end
-  end
-
-  def store_secret
-    @secret = if @human.role.eql?('Creator')
-                @human.pick_secret
-              else
-                @computer.pick_secret
-              end
   end
 
   def ask_guess
@@ -181,6 +180,17 @@ class Game
       hint << '?' if @secret.include?(guess_number) && @hinted.include?(guess_number) == false
     end
     hint
+  end
+
+  private
+
+  def store_secret
+    @secret = if @human.role.eql?('Creator')
+                @human.pick_secret
+              else
+                puts 'I will now pick the secret code.'
+                @computer.pick_secret
+              end
   end
 end
 

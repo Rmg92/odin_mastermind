@@ -39,7 +39,7 @@ Apart from that it was another nice practice on OOP, there is still a lot I thin
 - [X] Let the player choose if he wants to be the creator or the guesser
 - [ ] Update the UI
 - [ ] Improve the Computer AI
-- [ ] Refactor the code
+- [ ] Clean the code
 
 ## Acknowledgments
 * [The Odin Project](https://www.theodinproject.com/)

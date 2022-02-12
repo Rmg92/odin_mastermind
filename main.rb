@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require 'pry-byebug'
-
 # Creates a new human player, role can be creator or guesser
 class Human
   attr_accessor :name, :role
@@ -11,7 +9,7 @@ class Human
   end
 
   def pick_secret
-    puts "Please choose a 4 digits between 1 and 6 code."
+    puts 'Please choose a secret code! A 4 number digits between 1 and 6 code.'
     secret = gets.split('').map(&:to_i).delete_if(&:zero?)
     if secret.all? { |number| number.between?(1, 6) } && secret.length == 4
       secret
@@ -35,12 +33,14 @@ end
 
 # Creates a new computer player, role can be creator or guesser
 class Computer
+  attr_reader :name
   attr_accessor :role
 
   def initialize
     choices = [1, 2, 3, 4, 5, 6]
     @possible_guesses = choices.repeated_permutation(4).to_a
     @last_guess = []
+    @name = 'Jarvas'
   end
 
   def pick_secret
@@ -97,16 +97,21 @@ class Game
   def play
     create_players
     store_secret
-    play_round until @winner || @round == 13
-    if @winner
-      puts "Good job #{@human.name}, you won the Game!"
-    else
-      puts 'Too bad, I won the Game!!!'
-    end
+    play_round while @winner.eql?(false) && @round < 13
+    # Change code so the correct winner is annouced
+    declare_winner
   end
 
-  def round_number
-    @round
+  def declare_winner
+    if @winner.eql?(false)
+      if @human.role.eql?('Creator')
+        puts "#{@human.name} is the Winner!"
+      else
+        puts "#{@computer.name} is the Winner!"
+      end
+    else
+      puts "#{@winner.name} is the Winner!"
+    end
   end
 
   def play_round
@@ -119,7 +124,8 @@ class Game
     @human = Human.new(gets.chomp)
     @computer = Computer.new
     choose_roles
-    puts "Nice to meet you #{@human.name}! You will be the #{@human.role} and I will be the #{@computer.role}!"
+    puts "Nice to meet you #{@human.name}, you will be the #{@human.role}!\n" \
+         "Your opponent will be #{@computer.name} as the #{@computer.role}!"
   end
 
   def choose_roles
@@ -148,7 +154,11 @@ class Game
   def check_guess
     ask_guess
     if @secret.eql?(@guess)
-      @winner = true
+      @winner = if @human.role.eql?('Guesser')
+                  @human
+                else
+                  @computer
+                end
     else
       @hinted = []
       give_feedback

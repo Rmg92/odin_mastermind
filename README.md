@@ -28,10 +28,12 @@ cd into the folder and:
 ruby main.rb
 ```
 
-## What I Learned
+## What I Learned \ Reflections
 The most dificult part of this project was creating the logic to give feedback on the player guess and then, in case of the computer being the code breaker, making him decide on the next guess based on the feedback received.
 
 Apart from that it was another nice practice on OOP, there is still a lot I think I can improve (what should/shouldn't be a class, ...), and some things I definitly need to recheked (private/public method's, modules, ...).
+
+Looking back, I think I could have planned my classes better by having a creator and guessor class, it would have made easier to code.
 
 ## To-Do
 - [X] Make the game playable when the computer is the creator and the player the guesser

@@ -48,7 +48,6 @@ class Computer
     4.times do
       secret << rand(1..6)
     end
-    puts "I have now picked the secret code, you can start guessing when you're ready!"
     secret
   end
 
@@ -105,12 +104,12 @@ class Game
   def declare_winner
     if @winner.eql?(false)
       if @human.role.eql?('Creator')
-        puts "#{@human.name} is the Winner!"
+        puts "Code not Found! #{@human.name} is the Winner!"
       else
-        puts "#{@computer.name} is the Winner!"
+        puts "Code not Found! #{@computer.name} is the Winner!"
       end
     else
-      puts "#{@winner.name} is the Winner!"
+      puts "Code Found! #{@winner.name} is the Winner!"
     end
   end
 
@@ -198,7 +197,7 @@ class Game
     @secret = if @human.role.eql?('Creator')
                 @human.pick_secret
               else
-                puts 'I will now pick the secret code.'
+                puts "#{@computer.name} has now picked the secret code, you can start guessing when you're ready!"
                 @computer.pick_secret
               end
   end

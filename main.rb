@@ -59,7 +59,6 @@ class Computer
                @possible_guesses[0]
              end
     @last_guess = secret
-    p secret
     secret
   end
 
@@ -81,8 +80,8 @@ end
 
 # Creates a new board
 class Board
-  def initialize
-    puts 'o o o o'
+  def print_board(guess, right_position, right_color)
+    puts "#{guess[0]} #{guess[1]} #{guess[2]} #{guess[3]} #{right_position[0]}#{right_position[1]}#{right_position[2]}#{right_position[3]} #{right_color[0]}#{right_color[1]}#{right_color[2]}#{right_color[3]}"
   end
 end
 
@@ -95,9 +94,9 @@ class Game
 
   def play
     create_players
+    @board = Board.new
     store_secret
     play_round while @winner.eql?(false) && @round < 13
-    # Change code so the correct winner is annouced
     declare_winner
   end
 
@@ -120,6 +119,7 @@ class Game
 
   def create_players
     puts "Hello Human, what's your name?"
+    # Use @creator and @guesser instead of @human and @computer???
     @human = Human.new(gets.chomp)
     @computer = Computer.new
     choose_roles
@@ -165,11 +165,8 @@ class Game
   end
 
   def give_feedback
-    if @human.role.eql?('Guesser')
-      p right_position + right_color
-    else
-      @computer.delete_possible_guesses(right_position.length, right_color.length)
-    end
+    @board.print_board(@guess, right_position, right_color)
+    @computer.delete_possible_guesses(right_position.length, right_color.length) if @computer.role.eql?('Guesser')
   end
 
   def right_position
@@ -203,5 +200,5 @@ class Game
   end
 end
 
-Game.new.play
-# Temporary code for tests
+game = Game.new
+game.play

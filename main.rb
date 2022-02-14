@@ -81,7 +81,7 @@ end
 # Creates a new board
 class Board
   def print_board(guess, right_position, right_color)
-    puts "#{guess[0]} #{guess[1]} #{guess[2]} #{guess[3]} #{right_position[0]}#{right_position[1]}#{right_position[2]}#{right_position[3]} #{right_color[0]}#{right_color[1]}#{right_color[2]}#{right_color[3]}"
+    puts "Guess: #{guess[0]} #{guess[1]} #{guess[2]} #{guess[3]} Hints: #{right_position[0]}#{right_position[1]}#{right_position[2]}#{right_position[3]} #{right_color[0]}#{right_color[1]}#{right_color[2]}#{right_color[3]}"
   end
 end
 

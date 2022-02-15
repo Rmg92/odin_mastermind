@@ -2,7 +2,7 @@
 
 # Creates a new human player, role can be creator or guesser
 class Human
-  attr_accessor :name, :role
+  attr_accessor :name
 
   def initialize(name)
     @name = name
@@ -34,13 +34,12 @@ end
 # Creates a new computer player, role can be creator or guesser
 class Computer
   attr_reader :name
-  attr_accessor :role
 
   def initialize
     choices = [1, 2, 3, 4, 5, 6]
     @possible_guesses = choices.repeated_permutation(4).to_a
     @last_guess = []
-    @name = 'Jarvas'
+    @name = 'Jarvas the Computer'
   end
 
   def pick_secret
@@ -93,11 +92,37 @@ class Game
   end
 
   def play
-    create_players
+    game_setup
     @board = Board.new
     store_secret
     play_round while @winner.eql?(false) && @round < 13
     declare_winner
+  end
+
+  def game_setup
+    puts 'Rules!'
+    create_players(human_name, human_role)
+    puts "#{@maker.name} will be the Maker and #{@breaker.name} will be the Breaker!"
+  end
+
+  def human_name
+    puts "Hello Human, what's your name?"
+    gets.chomp
+  end
+
+  def human_role
+    puts 'Input 0 if you want to be the Maker or 1 if you want to be the Breaker'
+    gets.to_i
+  end
+
+  def create_players(name, role)
+    if role.zero?
+      @maker = Human.new(name)
+      @breaker = Computer.new
+    else
+      @maker = Computer.new
+      @breaker = Human.new(name)
+    end
   end
 
   def declare_winner
@@ -115,31 +140,6 @@ class Game
   def play_round
     check_guess
     @round += 1
-  end
-
-  def create_players
-    puts "Hello Human, what's your name?"
-    # Use @creator and @guesser instead of @human and @computer???
-    @human = Human.new(gets.chomp)
-    @computer = Computer.new
-    choose_roles
-    puts "Nice to meet you #{@human.name}, you will be the #{@human.role}!\n" \
-         "Your opponent will be #{@computer.name} as the #{@computer.role}!"
-  end
-
-  def choose_roles
-    puts 'Insert 0 if you want to be the Creator or 1 if you want to be the Guesser'
-    role = gets.to_i
-    if role.zero?
-      @human.role = 'Creator'
-      @computer.role = 'Guesser'
-    elsif role.eql?(1)
-      @human.role = 'Guesser'
-      @computer.role = 'Creator'
-    else
-      puts 'Wrong Input!'
-      choose_roles
-    end
   end
 
   def ask_guess

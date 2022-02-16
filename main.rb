@@ -79,8 +79,12 @@ end
 
 # Creates a new board
 class Board
-  def print_board(guess, right_position, right_color)
-    puts "Guess: #{guess[0]} #{guess[1]} #{guess[2]} #{guess[3]} Hints: #{right_position[0]}#{right_position[1]}#{right_position[2]}#{right_position[3]} #{right_color[0]}#{right_color[1]}#{right_color[2]}#{right_color[3]}"
+  def print_guess(guess)
+    puts "Guess: #{guess.join}"
+  end
+
+  def print_hints(right_position, right_color)
+    puts "Hints: #{right_position.join} #{right_color.join}"
   end
 end
 
@@ -125,39 +129,20 @@ class Game
     end
   end
 
-  def declare_winner
-    if @winner.eql?(false)
-      if @human.role.eql?('Creator')
-        puts "Code not Found! #{@human.name} is the Winner!"
-      else
-        puts "Code not Found! #{@computer.name} is the Winner!"
-      end
-    else
-      puts "Code Found! #{@winner.name} is the Winner!"
-    end
-  end
-
   def play_round
     check_guess
     @round += 1
   end
 
   def ask_guess
-    @guess = if @human.role.eql?('Guesser')
-               @human.guess_secret
-             else
-               @computer.guess_secret
-             end
+    @guess = @breaker.guess_secret
+    @board.print_guess(@guess)
   end
 
   def check_guess
     ask_guess
     if @secret.eql?(@guess)
-      @winner = if @human.role.eql?('Guesser')
-                  @human
-                else
-                  @computer
-                end
+      @winner = true
     else
       @hinted = []
       give_feedback
@@ -165,8 +150,8 @@ class Game
   end
 
   def give_feedback
-    @board.print_board(@guess, right_position, right_color)
-    @computer.delete_possible_guesses(right_position.length, right_color.length) if @computer.role.eql?('Guesser')
+    @board.print_hints(right_position, right_color)
+    @breaker.delete_possible_guesses(right_position.length, right_color.length) if @breaker.instance_of?(Computer)
   end
 
   def right_position
@@ -188,15 +173,18 @@ class Game
     hint
   end
 
+  def declare_winner
+    if @winner
+      puts "Code Found! #{@breaker.name} is the Winner!"
+    else
+      puts "Code not Found! #{@maker.name} is the Winner!"
+    end
+  end
+
   private
 
   def store_secret
-    @secret = if @human.role.eql?('Creator')
-                @human.pick_secret
-              else
-                puts "#{@computer.name} has now picked the secret code, you can start guessing when you're ready!"
-                @computer.pick_secret
-              end
+    @secret = @maker.pick_secret
   end
 end
 
